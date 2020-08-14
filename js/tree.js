@@ -376,7 +376,7 @@ class AVL {
             }
 
             html = '<li>' +
-                '<div class="rounded-pill px-2 py-1 ' + color + '" onclick="deleteNode(\'' + head.name + '\')">' +
+                '<div class="badge px-2 py-1 ' + color + '" onclick="deleteNode(\'' + head.name + '\')">' +
                 head.name + "<br><small>" + head.age +
                 '</small></div>';
 
@@ -404,11 +404,20 @@ class AVL {
             } else if ((value) < (root.name)) {
                 return this.find(root.left, value);
             }
+        }else{
+            return null;
         }
     }
 
     getAge(value) {
-        return this.find(this.root, value).age;
+        var node = this.find(this.root, value);
+
+        if(node !== null) {
+            return node.age;
+        }else{
+            return false;
+        }
+        
     }
 
     setList(head) {
@@ -543,8 +552,12 @@ function insertNode() {
 function getAge() {
     if ($('#nameToAgeTxt').val() !== "") {
         var age = tree.getAge($('#nameToAgeTxt').val());
-        alert("La edad de " + $('#nameToAgeTxt').val() + " es " + age);
-        printTree();
+        if(age){
+            alert("La edad de " + $('#nameToAgeTxt').val() + " es " + age);
+        }else{
+            alert("El nodo "+$('#nameToAgeTxt').val()+" no existe.");
+        }
+        
         $("#nameToAgeTxt").val("");
     } else {
         alert("Ingrese un dato valido");

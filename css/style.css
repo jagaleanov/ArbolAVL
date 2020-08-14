@@ -5,7 +5,6 @@ body{
 
 .tree{
     white-space: nowrap;
-    font-size: 1.3em;
 }
 
 .tree ul, .tree li {
@@ -88,4 +87,9 @@ body{
 .list ul, .list li{
     list-style: none;
     padding: 0;
+}
+
+.badge{
+    
+    font-size: 1.1em;
 }
