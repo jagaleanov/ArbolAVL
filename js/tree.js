@@ -404,7 +404,7 @@ class AVL {
             } else if ((value) < (root.name)) {
                 return this.find(root.left, value);
             }
-        }else{
+        } else {
             return null;
         }
     }
@@ -412,12 +412,12 @@ class AVL {
     getAge(value) {
         var node = this.find(this.root, value);
 
-        if(node !== null) {
+        if (node !== null) {
             return node.age;
-        }else{
+        } else {
             return false;
         }
-        
+
     }
 
     setList(head) {
@@ -524,7 +524,7 @@ var tree = new AVL();
 printTree();
 
 function printTree() {
-    
+
     if (tree.root === null) {
         $('#treeUl').html("");
     } else {
@@ -552,12 +552,12 @@ function insertNode() {
 function getAge() {
     if ($('#nameToAgeTxt').val() !== "") {
         var age = tree.getAge($('#nameToAgeTxt').val());
-        if(age){
+        if (age) {
             alert("La edad de " + $('#nameToAgeTxt').val() + " es " + age);
-        }else{
-            alert("El nodo "+$('#nameToAgeTxt').val()+" no existe.");
+        } else {
+            alert("El nodo " + $('#nameToAgeTxt').val() + " no existe.");
         }
-        
+
         $("#nameToAgeTxt").val("");
     } else {
         alert("Ingrese un dato valido");
