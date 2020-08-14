@@ -20,182 +20,62 @@
         </nav>
         <div class="card mx-4">
             <div class="card-body">
-
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-5 col-lg-6 col-xl-6">
                         <h5 class="card-title">Entrada de datos</h5>
-                        <div class="form-group">
-                            <label for="numberTxt">Ingrese el nombre de la persona</label>
-                            <input type="text" name="numberTxt" id="text1" class="form-control" value=""
-                                autocomplete="off" required>
+                        <div class="row">
+                            <div class="form-group col-12 col-sm-12 col-md-5 col-lg-6 col-xl-6">
+                                <label for="nameTxt">Ingrese el nombre de la persona</label>
+                                <input type="text" name="nameTxt" id="nameTxt" class="form-control" value=""
+                                    autocomplete="off" required>
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-5 col-lg-6 col-xl-6">
+                                <label for="ageTxt">Ingrese la edad</label>
+                                <input type="number" name="ageTxt" id="ageTxt" class="form-control" value=""
+                                    autocomplete="off" required min="0">
+                            </div>
                         </div>
-
                         <div class="form-group">
-                            <label for="numberTxt">Ingrese la edad</label>
-                            <input type="number" name="numberTxt" id="text2" class="form-control" value=""
-                                autocomplete="off" required min="0">
-                        </div>
-                        <div class="form-group">
-                            <input type="button" id="submitTxt" class="btn btn-primary btn-block" value="Ingresar"
-                                onclick="insert()">
+                            <input type="button" id="insertTxt" class="btn btn-primary btn-block" value="Ingresar"
+                                onclick="insertNode()">
                         </div>
                     </div>
-
                     <div class="form-group col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                         <h5 class="card-title">Consultar</h5>
                         <div class="form-group">
-                            <label for="numberTxt">Ingrese el nombre para consultar la edad</label>
-                            <input type="text" name="numberTxt" id="textAge" class="form-control" value=""
+                            <label for="nameToAgeTxt">Ingrese un nombre para consultar la edad</label>
+                            <input type="text" name="nameToAgeTxt" id="nameToAgeTxt" class="form-control" value=""
                                 autocomplete="off" required>
                         </div>
                         <div class="form-group">
                             <input type="button" id="submitAge" class="btn btn-primary btn-block" value="Consultar"
                                 onclick="getAge()">
                         </div>
-                        <h5 class="card-title">Listado por edades</h5>
-                        <h6><span id="ageString"></span></h6>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card mx-4 mt-4">
             <div class="card-body ">
-                <h5 class="card-title">Árbol generado</h5>
-                <div class="tree">
-                    <ul id="treeUl">
-                        <!--
-                            <li>
-                                <div class="rounded-pill px-2 py-1">100</div>
-                                <ul>
-                                    <li>
-                                        <div class="rounded-pill px-2 py-1">50</div>
-                                        <ul>
-                                            <li>
-                                                <div class="rounded-pill px-2 py-1">25</div>
-                                                <ul>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">1</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">-9.999</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">12</div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">40.2</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">40</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">40.21</div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <div class="rounded-pill px-2 py-1">75</div>
-                                                <ul>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">60.00000001</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">50.1</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">72</div>
-
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">90</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">80</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">95</div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <div class="rounded-pill px-2 py-1">5000</div>
-                                        <ul>
-                                            <li>
-                                                <div class="rounded-pill px-2 py-1">200</div>
-                                                <ul>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">102</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">101</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">103</div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">1000</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">500</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">4999</div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <div class="rounded-pill px-2 py-1">10000</div>
-                                                <ul>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">5002</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">5001</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">5003</div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li>
-                                                        <div class="rounded-pill px-2 py-1">10001</div>
-                                                        <ul>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">5004</div>
-                                                            </li>
-                                                            <li>
-                                                                <div class="rounded-pill px-2 py-1">99999</div>
-                                                                <ul>
-
-                                                                    <li><span class="px-2 py-1">*</span></li>
-                                                                    <li>
-                                                                        <div class="rounded-pill px-2 py-1">999999999999999</div>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>-->
-                    </ul>
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-2">
+                        <h5 class="card-title">Listado por edades</h5>
+                        <div class="list">
+                            <ul id="listUl">
+                            </ul>
+                        </div>
+                        <h5 class="card-title">Balance</h5>
+                        <span class="rounded-pill px-2 py-1 badge-danger">1</span>
+                        <span class="rounded-pill px-2 py-1 badge-dark">0</span>
+                        <span class="rounded-pill px-2 py-1 badge-primary">-1</span>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-10 col-lg-10 col-xl-10">
+                        <h5 class="card-title">Árbol generado</h5>
+                        <div class="tree">
+                            <ul id="treeUl">
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

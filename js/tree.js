@@ -1,258 +1,229 @@
-class Nodo {
-    info;
-    edad;
-    bal;
-    izq;
-    der;
+class Node {
+    name;
+    age;
+    balance;
+    left;
+    right;
 
-    constructor(n, edad) {
-        this.info = n;
-        this.edad = edad
-        this.bal = 0;
-        this.izq = this.der = null;
+    constructor(n, age) {
+        this.name = n;
+        this.age = age
+        this.balance = 0;
+        this.left = this.right = null;
     }
 }
+
 class AVL {
-    raiz;
-    fila;
+    root;
     list;
 
     constructor() {
-        this.raiz = null;
+        this.root = null;
         this.list = new List();
     }
-    rDerecha(p, q) {
-        p.bal = 0;
-        q.bal = 0;
-        p.izq = q.der;
-        q.der = p;
+
+    rollRight(p, q) {
+        p.balance = 0;
+        q.balance = 0;
+        p.left = q.right;
+        q.right = p;
     }
-    rIzquierda(p, q) {
-        p.bal = 0;
-        q.bal = 0;
-        p.der = q.izq;
-        q.izq = p;
+
+    rollLeft(p, q) {
+        p.balance = 0;
+        q.balance = 0;
+        p.right = q.left;
+        q.left = p;
     }
-    drDerecha(p, q) {
+
+    doubleRollRight(p, q) {
         var r;
-        r = q.der;
-        q.der = r.izq;
-        r.izq = q;
-        p.izq = r.der;
-        r.der = p;
+        r = q.right;
+        q.right = r.left;
+        r.left = q;
+        p.left = r.right;
+        r.right = p;
 
-        //p.der = r.izq;
-        //r.izq = p;
-
-        switch (r.bal) {
+        switch (r.balance) {
             case -1:
-                q.bal = 1;
-                p.bal = 0;
+                q.balance = 1;
+                p.balance = 0;
                 break;
             case 0:
-                q.bal = p.bal = 0;
+                q.balance = p.balance = 0;
                 break;
             case 1:
-                q.bal = 0;
-                p.bal = -1;
+                q.balance = 0;
+                p.balance = -1;
                 break;
         }
-        r.bal = 0;
+        r.balance = 0;
         return r;
     }
 
-    drIzquierda(p, q) {
+    doubleRollLeft(p, q) {
         var r;
-        r = q.izq;
-        q.izq = r.der;
-        r.der = q;
-        p.der = r.izq;
-        r.izq = p;
+        r = q.left;
+        q.left = r.right;
+        r.right = q;
+        p.right = r.left;
+        r.left = p;
 
-        switch (r.bal) {
+        switch (r.balance) {
             case -1:
-                q.bal = 0;
-                p.bal = 1;
-                break;
-            case 1:
-                q.bal = -1;
-                p.bal = 0;
+                q.balance = 0;
+                p.balance = 1;
                 break;
             case 0:
-                q.bal = p.bal = 0;
+                q.balance = p.balance = 0;
+                break;
+            case 1:
+                q.balance = -1;
+                p.balance = 0;
                 break;
         }
-        r.bal = 0;
+        r.balance = 0;
         return r;
     }
 
-    insAVL(n, edad) {
+    insert(n, age) {
         var nuevo, p, q, s, pivote, pp, llave, altura;
 
-        nuevo = new Nodo(n, edad);
-        if (this.raiz == null) {
-            this.raiz = nuevo;
-            return (1); // el arbol tiene un solo nodo
+        nuevo = new Node(n, age);
+        if (this.root == null) {
+            this.root = nuevo;
+            return (1); // el arbol tiene un solo Node
         }
         pp = q = null;
-        pivote = p = this.raiz;
-        llave = nuevo.info;
+        pivote = p = this.root;
+        llave = nuevo.name;
         while (p != null) {
-            if (p.bal != 0) {
+            if (p.balance != 0) {
                 pp = q;
                 pivote = p;
             }
 
-            if (llave == p.info) {
+            if (llave == p.name) {
                 alert("El nombre ingresado ya se encuentra, por favor ingrese otro");
                 return (2); /* ya existe */
             }
 
             else {
                 q = p;
-                if (llave < p.info)
-                    p = p.izq;
-                else p = p.der;
+                if (llave < p.name)
+                    p = p.left;
+                else p = p.right;
             }
         }
-        if (llave < q.info)
-            q.izq = nuevo;
-        else q.der = nuevo;
-        if (llave < pivote.info) {
-            s = pivote.izq;
+        if (llave < q.name)
+            q.left = nuevo;
+        else q.right = nuevo;
+        if (llave < pivote.name) {
+            s = pivote.left;
             altura = 1;
         }
         else {
-            s = pivote.der;
+            s = pivote.right;
             altura = -1;
         }
         p = s;
         while (p != nuevo) {
-            if (llave < p.info) {
-                p.bal = 1;
-                p = p.izq;
+            if (llave < p.name) {
+                p.balance = 1;
+                p = p.left;
             }
             else {
-                p.bal = -1;
-                p = p.der;
+                p.balance = -1;
+                p = p.right;
             }
         }
-        if (pivote.bal == 0)
-            pivote.bal = altura;
-        else if (pivote.bal + altura == 0)
-            pivote.bal = 0;
+        if (pivote.balance == 0)
+            pivote.balance = altura;
+        else if (pivote.balance + altura == 0)
+            pivote.balance = 0;
         else {
             if (altura == 1) {
-                if (s.bal == 1)
-                    this.rDerecha(pivote, s);
-                else s = this.drDerecha(pivote, s);
+                if (s.balance == 1)
+                    this.rollRight(pivote, s);
+                else s = this.doubleRollRight(pivote, s);
             }
             else {
-                if (s.bal == -1)
-                    this.rIzquierda(pivote, s);
-                else s = this.drIzquierda(pivote, s);
+                if (s.balance == -1)
+                    this.rollLeft(pivote, s);
+                else s = this.doubleRollLeft(pivote, s);
             }
             if (pp == null)
-                this.raiz = s;
-            else if (pp.izq == pivote)
-                pp.izq = s;
-            else pp.der = s;
+                this.root = s;
+            else if (pp.left == pivote)
+                pp.left = s;
+            else pp.right = s;
         }
         return 1;
     }
 
-    raizArbol() { return this.raiz; }
-
-    initFila() { this.fila = 0; }
-
-    inorden(p, lienzo) {
-
-        if (p != null) {
-            inorden(p.izq, lienzo);
-            lienzo.drawString("" + p.info + " " + p.bal, 50, ++this.fila * 15);
-            inorden(p.der, lienzo);
-        }
-    }
-
-    preorden(p, lienzo) {
-        if (p != null) {
-            lienzo.drawString("" + p.info + " " + p.bal, 90, ++this.fila * 15);
-            preorden(p.izq, lienzo);
-            preorden(p.der, lienzo);
-        }
-    }
-
-    posorden(p, lienzo) {
-        if (p != null) {
-            posorden(p.izq, lienzo);
-            posorden(p.der, lienzo);
-            lienzo.drawString("" + p.info + " " + p.bal, 130, ++this.fila * 15);
-        }
-    }
-
-    bal_der(q, terminar) {
+    balanceRight(q, terminar) {
         var t = null;
-        switch (q.bal) {
+        switch (q.balance) {
             case 1:
-                q.bal = 0;
+                q.balance = 0;
                 break;
             case -1:
-                t = q.der;
-                switch (t.bal) {
+                t = q.right;
+                switch (t.balance) {
                     case 1:
-                        t = this.drIzquierda(q, t);
+                        t = this.doubleRollLeft(q, t);
                         break;
                     case -1:
-                        this.rIzquierda(q, t);
+                        this.rollLeft(q, t);
                         break;
                     case 0:
-                        q.der = t.izq;
-                        t.izq = q;
-                        t.bal = 1;
+                        q.right = t.left;
+                        t.left = q;
+                        t.balance = 1;
                         terminar[0] = 1;
                         break;
                 }
                 break;
             case 0:
-                q.bal = -1;
+                q.balance = -1;
                 terminar[0] = 1;
                 break;
         }
         return t;
     }
 
-    bal_izq(q, terminar) {
+    balanceLeft(q, terminar) {
         var t = null;
-        switch (q.bal) {
+        switch (q.balance) {
             case -1:
-                q.bal = 0;
+                q.balance = 0;
                 break;
             case 1:
-                t = q.izq;
-                switch (t.bal) {
+                t = q.left;
+                switch (t.balance) {
                     case 1:
-                        this.rDerecha(q, t);
+                        this.rollRight(q, t);
                         break;
                     case -1:
-                        t = this.drDerecha(q, t);
+                        t = this.doubleRollRight(q, t);
                         break;
                     case 0:
-                        q.izq = t.der;
-                        t.der = q;
-                        t.bal = -1;
+                        q.left = t.right;
+                        t.right = q;
+                        t.balance = -1;
                         terminar[0] = 1;
                         break;
                 }
                 break;
             case 0:
-                q.bal = 1;
+                q.balance = 1;
                 terminar[0] = 1;
                 break;
         }
         return t;
     }
 
-    retirarAVL(n) {
+    delete(n) {
         var pila = new Stack();
         var p, q, t, r;
         var llave, accion;
@@ -263,18 +234,18 @@ class AVL {
 
         var encontro = false;
 
-        if (this.raiz == null) {
+        if (this.root == null) {
             return (1);
         }
 
         terminar[0] = 0;
-        p = this.raiz;
+        p = this.root;
         while (!encontro && p != null) {
             pila.push(p);
-            if (n < p.info)
-                p = p.izq;
-            else if (n > p.info)
-                p = p.der;
+            if (n < p.name)
+                p = p.left;
+            else if (n > p.name)
+                p = p.right;
             else encontro = true;
         }
         if (!encontro) {
@@ -282,27 +253,27 @@ class AVL {
         }
         t = null;
         p = pila.pop();
-        llave = p.info;
-        if (p.izq == null && p.der == null)
+        llave = p.name;
+        if (p.left == null && p.right == null)
             accion = 0;
-        else if (p.der == null)
+        else if (p.right == null)
             accion = 1;
-        else if (p.izq == null)
+        else if (p.left == null)
             accion = 2;
         else accion = 3;
         if (accion == 0 || accion == 1 || accion == 2) {
             if (!pila.empty()) {
                 q = pila.pop();
-                if (llave < q.info) {
+                if (llave < q.name) {
                     switch (accion) {
                         case 0:
                         case 1:
-                            q.izq = p.izq;
-                            t = this.bal_der(q, terminar);
+                            q.left = p.left;
+                            t = this.balanceRight(q, terminar);
                             break;
                         case 2:
-                            q.izq = p.der;
-                            t = this.bal_der(q, terminar);
+                            q.left = p.right;
+                            t = this.balanceRight(q, terminar);
                             break;
                     }
                 }
@@ -310,12 +281,12 @@ class AVL {
                     switch (accion) {
                         case 0:
                         case 2:
-                            q.der = p.der;
-                            t = this.bal_izq(q, terminar);
+                            q.right = p.right;
+                            t = this.balanceLeft(q, terminar);
                             break;
                         case 1:
-                            q.der = p.izq;
-                            t = this.bal_izq(q, terminar);
+                            q.right = p.left;
+                            t = this.balanceLeft(q, terminar);
                             break;
                     }
                 }
@@ -323,14 +294,14 @@ class AVL {
             else {
                 switch (accion) {
                     case 0:
-                        this.raiz = null;
+                        this.root = null;
                         terminar[0] = 1;
                         break;
                     case 1:
-                        this.raiz = p.izq;
+                        this.root = p.left;
                         break;
                     case 2:
-                        this.raiz = p.der;
+                        this.root = p.right;
                         break;
                 }
             }
@@ -338,48 +309,48 @@ class AVL {
         else {
             pila.push(p);
             r = p;
-            p = r.der;
+            p = r.right;
             q = null;
-            while (p.izq != null) {
+            while (p.left != null) {
                 pila.push(p);
                 q = p;
-                p = p.izq;
+                p = p.left;
             }
-            llave = r.info = p.info;
+            llave = r.name = p.name;
             if (q != null) {
-                q.izq = p.der;
-                t = this.bal_der(q, terminar);
+                q.left = p.right;
+                t = this.balanceRight(q, terminar);
             }
             else {
-                r.der = p.der;
-                t = this.bal_izq(r, terminar);
+                r.right = p.right;
+                t = this.balanceLeft(r, terminar);
             }
             q = pila.pop();
         }
         while (!pila.empty() && terminar[0] == 0) {
             q = pila.pop();
-            if (llave < q.info) {
+            if (llave < q.name) {
                 if (t != null) {
-                    q.izq = t;
+                    q.left = t;
                     t = null;
                 }
-                t = this.bal_der(q, terminar);
+                t = this.balanceRight(q, terminar);
             }
             else {
                 if (t != null) {
-                    q.der = t;
+                    q.right = t;
                     t = null;
                 }
-                t = this.bal_izq(q, terminar);
+                t = this.balanceLeft(q, terminar);
             }
         }
         if (t != null) {
-            if (pila.empty() == true) this.raiz = t;
+            if (pila.empty() == true) this.root = t;
             else {
                 q = pila.pop();
-                if (llave < q.info)
-                    q.izq = t;
-                else q.der = t;
+                if (llave < q.name)
+                    q.left = t;
+                else q.right = t;
             }
         }
         return 0;
@@ -391,25 +362,25 @@ class AVL {
         if (head === null) {
             return '<li><span class="px-2 py-1">*</span></li>';
         } else {
-            var htmlLeft = this.toHTML(head.izq);
-            var htmlRight = this.toHTML(head.der);
+            var htmlLeft = this.toHTML(head.left);
+            var htmlRight = this.toHTML(head.right);
 
             var color;
 
-            if(head.bal==-1) {
+            if (head.balance == -1) {
                 color = "badge-primary";
-            }else if(head.bal==0) {
+            } else if (head.balance == 0) {
                 color = "badge-dark";
-            }else{
+            } else {
                 color = "badge-danger";
             }
 
             html = '<li>' +
-                '<div class="rounded-pill px-2 py-1 '+color+'" onclick="eliminar(\'' + head.info + '\')">' +
-                head.info + " " + head.edad +
-                '</div>';
+                '<div class="rounded-pill px-2 py-1 ' + color + '" onclick="deleteNode(\'' + head.name + '\')">' +
+                head.name + "<br><small>" + head.age +
+                '</small></div>';
 
-            if (!(head.izq === null && head.der === null)) {
+            if (!(head.left === null && head.right === null)) {
 
                 html += '<ul>' +
                     htmlLeft +
@@ -424,32 +395,31 @@ class AVL {
         return html;
     }
 
-    buscar(raiz, valor) {//BUSCAR UN NODO, SE USA PARA BUSCAR EL SIGUIENTE INORDEN
-        if (raiz !== null) {
-            if ((valor) === (raiz.info)) {
-                return raiz;
-            } else if ((valor) > (raiz.info)) {
-                return this.buscar(raiz.der, valor);
-            } else if ((valor) < (raiz.info)) {
-                return this.buscar(raiz.izq, valor);
+    find(root, value) {
+        if (root !== null) {
+            if ((value) === (root.name)) {
+                return root;
+            } else if ((value) > (root.name)) {
+                return this.find(root.right, value);
+            } else if ((value) < (root.name)) {
+                return this.find(root.left, value);
             }
         }
     }
 
-    getEdad(valor) {
-        return this.buscar(this.raiz, valor).edad;
+    getAge(value) {
+        return this.find(this.root, value).age;
     }
 
-    setLista(head) {
+    setList(head) {
 
         if (head != null) {
-            this.list.insert(head.info, head.edad);
-            this.setLista(head.izq);
-            this.setLista(head.der);
+            this.list.insert(head.name, head.age);
+            this.setList(head.left);
+            this.setList(head.right);
         }
     }
 }
-
 
 class Stack {
 
@@ -462,11 +432,11 @@ class Stack {
     push(data) {
 
         if (this.head != null) {
-            var newNode = new Nodo(data);
-            newNode.der = this.head;
+            var newNode = new Node(data);
+            newNode.right = this.head;
             this.head = newNode;
         } else {
-            var newNode = new Nodo(data);
+            var newNode = new Node(data);
             this.head = newNode;
         }
 
@@ -477,41 +447,16 @@ class Stack {
     pop() {
 
         var removed = this.head;
-        var next = this.head.der;
+        var next = this.head.right;
 
         this.head = next;
-        //print();
-        return removed.info;
+        return removed.name;
     }
 
     empty() {
         return this.head == null;
     }
-
-    nextPop() {
-
-        if (this.head != null) {
-            return this.head.info;
-        } else {
-            return "";
-        }
-    }
-    /*
-        public void print() {
-            NodeString q = head;
-    
-            if (q != null) {
-                do {
-                    System.out.print(q.getData() + " ");
-                    q = q.getNext();
-                } while (q != null);
-            }
-    
-            System.out.println();
-        }
-        */
 }
-
 
 class List {
     head;
@@ -520,35 +465,32 @@ class List {
         this.head = null;
     }
 
-    insert(str, age) {
+    insert(name, age) {
 
-        var newNode = new Nodo(str, age);
+        var newNode = new Node(name, age);
 
         if (this.head !== null) {//si la cabeza esta nula
             var temp = this.head;
-            //alert("Entro"+newNode.edad);
-            if (parseFloat(newNode.edad) > parseFloat(temp.edad)) {
-                //if (newNode.info.localeCompare(temp.info) > -1) {//si el primero en la lista es menor que el nuevo nodo
-                while (temp.der !== null) {//mientras encuentre mas menores
-                    if (parseFloat(newNode.edad) > parseFloat(temp.der.edad)) {
-                        temp = temp.der;
+            if (parseFloat(newNode.age) > parseFloat(temp.age)) {
+                while (temp.right !== null) {//mientras encuentre mas menores
+                    if (parseFloat(newNode.age) > parseFloat(temp.right.age)) {
+                        temp = temp.right;
                     } else {
                         break;
                     }
                 }
 
-                if (newNode.der !== null && newNode.der.edad > temp.edad) {
-                    //if (newNode.der !== null && newNode.der.getName().localeCompare(temp.getName()) > -1) {//si temp es el ultimo en la cola revisar si es menor (el bucle no diferencia si el ultimo es menor porque es el ultimo, no puede devolver null)
-                    newNode.der = null;
-                    temp.der = newNode;
+                if (newNode.right !== null && newNode.right.age > temp.age) {
+                    newNode.right = null;
+                    temp.right = newNode;
                 } else {//si esta en medio del primero y el ultimo
-                    newNode.der = temp.der;
-                    temp.der = newNode;
+                    newNode.right = temp.right;
+                    temp.right = newNode;
                 }
             } else {//si va antes del primero
                 var tempo = this.head;
                 this.head = newNode;
-                this.head.der = tempo;
+                this.head.right = tempo;
             }
         } else {//si aun no existe lista
             this.head = newNode;
@@ -562,7 +504,7 @@ class List {
 
         if (head !== null) {
 
-            html = head.edad + " " + head.info + "&nbsp;&nbsp;&nbsp;" + this.toHTML(head.izq) + "&nbsp;&nbsp;&nbsp;" + this.toHTML(head.der);
+            html = "<li>" + head.age + " " + head.name + "</li>" + this.toHTML(head.left) + this.toHTML(head.right);
         }
 
         return html;
@@ -570,94 +512,50 @@ class List {
 }
 
 var tree = new AVL();
-
-
-
-
-
-
-
-
-
-
-
+printTree();
 
 function printTree() {
-
-    //onsole.log(miArbol.getRaiz());
-    if (tree.raiz === null) {
+    
+    if (tree.root === null) {
         $('#treeUl').html("");
     } else {
-        $('#treeUl').html(tree.toHTML(tree.raiz));
+        $('#treeUl').html(tree.toHTML(tree.root));
     }
 
     tree.list.head = null;
-    
-    tree.setLista(tree.raiz);
+    tree.setList(tree.root);
 
-    
-    $('#ageString').html(tree.list.toHTML(tree.list.head));
+    $('#listUl').html(tree.list.toHTML(tree.list.head));
 }
 
-function insert() {
-    if ( $('#text1').val() !== "" && $('#text2').val() !== "") {
-        tree.insAVL($('#text1').val(), $('#text2').val());
+function insertNode() {
+    if ($('#nameTxt').val() !== "" && $('#ageTxt').val() !== "") {
+        tree.insert($('#nameTxt').val(), $('#ageTxt').val());
         printTree();
-        $("#text1").val("");
-        $("#text2").val("");
+        $("#nameTxt").val("");
+        $("#ageTxt").val("");
     } else {
         alert("Ingrese un dato valido");
     }
-    $("#text1").focus();
+    $("#nameTxt").focus();
 }
 
 function getAge() {
-    if ( $('#textAge').val() !== "") {
-        var age = tree.getEdad($('#textAge').val());
-        alert("La edad de "+$('#textAge').val()+" es "+age);
+    if ($('#nameToAgeTxt').val() !== "") {
+        var age = tree.getAge($('#nameToAgeTxt').val());
+        alert("La edad de " + $('#nameToAgeTxt').val() + " es " + age);
         printTree();
-        $("#textAge").val("");
+        $("#nameToAgeTxt").val("");
     } else {
         alert("Ingrese un dato valido");
     }
-    $("#textAge").focus();
+    $("#nameToAgeTxt").focus();
 }
 
-function eliminar(valor) {
-    var r = confirm("Desea eliminar el nodo " + valor + "?");
+function deleteNode(value) {
+    var r = confirm("Desea eliminar el nodo " + value + "?");
     if (r === true) {
-        tree.retirarAVL(valor);
+        tree.delete(value);
         printTree();
     }
 }
-
-
-tree.insAVL("lunes", 2);
-tree.insAVL("martes", 3);
-tree.insAVL("miercoles", 4);
-tree.insAVL("jueves", 5);
-tree.insAVL("viernes", 1);
-
-
-//console.log(tree.raiz);
-printTree();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

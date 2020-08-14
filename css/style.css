@@ -5,7 +5,6 @@ body{
 
 .tree{
     white-space: nowrap;
-    font-weight: bold;
     font-size: 1.3em;
 }
 
@@ -82,13 +81,11 @@ body{
     display: inline-block;
     border: 1px solid #000;
     transition: all 0.5s;
-    /*background: #28a745;*/
     cursor: pointer;
-    /*color: #fff; */
 }
 
-/*Efectos mouse over*/
-.tree li div:hover, .tree li div:hover+ul li div {
-    /*background: #e47600; */
-    /*Conectoresborder: 1px solid #94a0b4;*/
+
+.list ul, .list li{
+    list-style: none;
+    padding: 0;
 }
