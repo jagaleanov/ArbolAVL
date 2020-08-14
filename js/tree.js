@@ -513,7 +513,7 @@ class List {
 
         if (head !== null) {
 
-            html = "<li>" + head.age + " " + head.name + "</li>" + this.toHTML(head.left) + this.toHTML(head.right);
+            html = '<li><div class="badge badge-light mb-1">' + head.age + '</div> <div class="badge badge-secondary mb-1">' + head.name + "</div></li>" + this.toHTML(head.left) + this.toHTML(head.right);
         }
 
         return html;
